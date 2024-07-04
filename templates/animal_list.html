@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Animais</title>
+    <style>
+        body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: #37b23b;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .title {
+            text-align: center;
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #37b23b;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        .add-animal {
+            display: block;
+            width: fit-content;
+            margin: 20px auto;
+            background-color: #ff2b2b;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-animal:hover {
+            background-color: #5b3c22;
+        }
+        
+        @media (max-width: 768px) {
+            th, td {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .add-animal {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                font-size: 12px;
+                padding: 6px;
+            }
+
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .add-animal {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Lista de Animais</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Identificação</th>
+                    <th>Raça</th>
+                    <th>Sexo</th>
+                    <th>Peso</th>
+                    <th>Data de Nascimento</th>
+                    <th>Data de Cobertura</th>
+                    <th>Pai/Mãe</th>
+                    <th>ID Pai</th>
+                    <th>ID Mãe</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for animal in animais %}
+                <tr>
+                    <td>{{ animal.identificacao }}</td>
+                    <td>{{ animal.raca }}</td>
+                    <td>{{ animal.sexo }}</td>
+                    <td>{{ animal.peso }}</td>
+                    <td>{{ animal.data_de_nascimento }}</td>
+                    <td>{{ animal.data_de_cobertura }}</td>
+                    <td>{{ animal.pai_mae }}</td>
+                    <td>{{ animal.id_pai }}</td>
+                    <td>{{ animal.id_mae }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/add" class="add-animal">Adicionar Novo Animal</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Animal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #37b23b;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .title {
+            text-align: center;
+            color: #000000;
+            margin-bottom: 30px;
+            margin-top: 10px;
+        }
+
+        .form {
+            width: 100%;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .form label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            color: #714a2e;
+        }
+
+        .form input[type="text"],
+        .form input[type="number"],
+        .form input[type="date"],
+        .form select {
+            width: 100%;
+            padding: 14px;
+            margin: 5px 0 15px 0;
+            border: 2px solid #714a2e;
+            border-radius: 8px;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+
+        .form input[type="submit"] {
+            background-color: #ff2b2b;
+            color: #ffffff;
+            border: none;
+            padding: 14px 20px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            margin-top: 15px;
+            box-sizing: border-box;
+        }
+
+        .form input[type="submit"]:hover {
+            background-color: #bc2828;
+        }
+
+        .message {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .message.success {
+            color: #ffffff;
+            background-color: #28a745;
+        }
+
+        .message.error {
+            color: #ffffff;
+            background-color: #dc3545;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #714a2e;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .button-group button {
+            background-color: #714a2e;
+            border: 1px solid #ccc;
+            color: white;
+            padding: 14px;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 5px;
+            width: 152px;
+            justify-content: center;
+        }
+
+        .button-group button.selected {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .hidden-field {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .form-container {
+                padding: 15px;
+            }
+
+            .form input[type="submit"] {
+                width: 100%;
+            }
+
+            .form input[type="text"],
+            .form input[type="number"],
+            .form input[type="date"],
+            .form select {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            .message {
+                font-size: 16px;
+            }
+
+            .back-link a {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .form-container {
+                padding: 10px;
+            }
+
+            .form input[type="submit"] {
+                width: 100%;
+            }
+
+            .form input[type="text"],
+            .form input[type="number"],
+            .form input[type="date"],
+            .form select {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .message {
+                font-size: 16px;
+            }
+
+            .back-link a {
+                font-size: 16px;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+        }
+    </style>
+    <script>
+        function toggleFields(value) {
+            const paiMaeFields = document.getElementById('pai-mae-fields');
+            if (value === 'sim') {
+                paiMaeFields.style.display = 'block';
+            } else {
+                paiMaeFields.style.display = 'none';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const buttons = document.querySelectorAll('.form .button-group button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    buttons.forEach(btn => btn.classList.remove('selected'));
+                    this.classList.add('selected');
+                    const value = this.getAttribute('data-value');
+                    document.getElementById('pai_mae').value = value;
+                    toggleFields(value);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1 class="title">Adicionar Animal</h1>
+            {% if message %}
+                <div class="message {{ 'success' if message_type == 'success' else 'error' }}">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <section class="form">
+                <form method="POST" action="/add">
+                    <label for="identificacao">Identificação:</label>
+                    <input type="number" id="identificacao" name="identificacao" required>
+
+                    <label for="raca">Raça:</label>
+                    <input type="text" id="raca" name="raca" required>
+
+                    <label for="sexo">Sexo:</label>
+                    <select id="sexo" name="sexo">
+                        <option value="Macho">Macho</option>
+                        <option value="Fêmea">Fêmea</option>
+                    </select>
+
+                    <label for="peso">Peso:</label>
+                    <input type="number" id="peso" name="peso" required>
+
+                    <label for="data_de_nascimento">Data de Nascimento:</label>
+                    <input type="date" id="data_de_nascimento" name="data_de_nascimento">
+
+                    <label for="data_de_cobertura">Data de Cobertura:</label>
+                    <input type="date" id="data_de_cobertura" name="data_de_cobertura">
+
+                    <label>Pai e Mãe:</label>
+                    <div class="button-group">
+                        <button type="button" data-value="sim">Sim</button>
+                        <button type="button" data-value="nao">Não</button>
+                    </div>
+                    <input type="hidden" id="pai_mae" name="pai_mae" value="nao">
+
+                    <div id="pai-mae-fields" class="hidden-field">
+                        <label for="id_pai">ID Pai:</label>
+                        <input type="text" id="id_pai" name="id_pai">
+
+                        <label for="id_mae">ID Mãe:</label>
+                        <input type="text" id="id_mae" name="id_mae">
+                    </div>
+
+                    <input type="submit" value="Adicionar">
+                </form>
+            </section>
+            <div class="back-link">
+                <a href="/list">Ir para Lista de Animais</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
